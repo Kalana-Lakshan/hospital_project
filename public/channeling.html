@@ -7,16 +7,19 @@
 </head>
 <body>
     <h1>Channel Your Doctor!</h1>
-    <form action="">
+    <form action="/channeling" method="POST">
+        <input type="text" name="patient">
         <label for="doctor">Select Your Doctor</label>
-        <select id = "doctor">
+        <select id = "doctor" name="doctor">
             <option value="Dr.Jones">Dr.Jones</option>
             <option value="Dr.Brown">Dr.Brown</option>
             <option value="Dr.Smith">Dr.smith</option>
         </select><br>
         <label for="channel_date">Date of Channeling  </label>
         <input type="date" id="channel_date" name="channel_date" required><br>
-
+        <label for="channel_time">Time of Channeling</label>
+        <input type="time" id="channel_time" name="channel_time" required><br>
+        <input type="submit" value="submit">
     </form>
 
 </body>
