@@ -1,26 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boeing Hospital</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Boeing Hospital</title>
+  <link rel="stylesheet" href="styles_channeling.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <h1>Channel Your Doctor!</h1>
-    <form action="/channeling" method="POST">
-        <input type="text" name="patient">
-        <label for="doctor">Select Your Doctor</label>
-        <select id = "doctor" name="doctor">
-            <option value="Dr.Jones">Dr.Jones</option>
-            <option value="Dr.Brown">Dr.Brown</option>
-            <option value="Dr.Smith">Dr.smith</option>
-        </select><br>
-        <label for="channel_date">Date of Channeling  </label>
-        <input type="date" id="channel_date" name="channel_date" required><br>
-        <label for="channel_time">Time of Channeling</label>
-        <input type="time" id="channel_time" name="channel_time" required><br>
-        <input type="submit" value="submit">
-    </form>
+  <div class="container">
+    <h1><i class="fas fa-user-md"></i> Channel Your Doctor!</h1>
 
+    <form action="/channeling" method="POST">
+      <input type="text" name="patient" placeholder="Your Name" required>
+
+      <label for="doctor">Select Your Doctor</label>
+      <select id="doctor" name="doctor" required>
+        <option value="">-- Loading doctors... --</option>
+      </select>
+
+      <label for="channel_date">Date of Channeling</label>
+      <input type="date" id="channel_date" name="channel_date" required>
+
+      <label for="channel_time">Time Slot</label>
+      <select id="channel_time" name="channel_time" required>
+        <option value="">Select a time slot</option>
+      </select>
+
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+
+  <script>
+    // Load doctor list from database
+    window.addEventListener('DOMContentLoaded', () => {
+      fetch('/doctors')
+        .then(res => res.json())
+        .then(data => {
+          const doctorSelect = document.getElementById("doctor");
+          doctorSelect.innerHTML = '<option value="">-- Select Doctor --</option>';
+          data.forEach(doc => {
+            const option = document.createElement("option");
+            option.value = doc.name;
+            option.textContent = doc.name;
+            doctorSelect.appendChild(option);
+          });
+        })
+        .catch(err => {
+          console.error('Failed to load doctors', err);
+        });
+    });
+
+    // Load available slots when doctor/date changes
+    document.getElementById("channel_date").addEventListener("change", fetchSlots);
+    document.getElementById("doctor").addEventListener("change", fetchSlots);
+
+    function fetchSlots() {
+      const doctor = document.getElementById("doctor").value;
+      const date = document.getElementById("channel_date").value;
+      const slotSelect = document.getElementById("channel_time");
+
+      if (!doctor || !date) return;
+
+      fetch(`/available-slots?doctor=${encodeURIComponent(doctor)}&date=${date}`)
+        .then(res => res.json())
+        .then(data => {
+          slotSelect.innerHTML = '<option value="">Select a time slot</option>';
+          if (data.length === 0) {
+            slotSelect.innerHTML += '<option value="">No slots available</option>';
+          } else {
+            data.forEach(slot => {
+              const time = slot.slot_time.slice(0, 5); // Truncate seconds
+              const option = document.createElement("option");
+              option.value = time;
+              option.textContent = time;
+              slotSelect.appendChild(option);
+            });
+          }
+        })
+        .catch(err => {
+          console.error("Failed to fetch slots", err);
+        });
+    }
+  </script>
 </body>
 </html>

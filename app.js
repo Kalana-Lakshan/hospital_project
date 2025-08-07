@@ -4,18 +4,19 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
-// Middleware to parse form data
+// ✅ Middleware to parse form data
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-// ✅ Serve static files from 'public' folder
+// ✅ Serve static files (HTML, CSS, JS) from 'public' folder
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ✅ MySQL connection setup
 const connection = mysql.createConnection({
   host: 'localhost',
-  user: 'root',              // Your MySQL user
-  password: '',              // Your MySQL password
-  database: 'hospital'    // Your DB name
+  user: 'root',
+  password: '',
+  database: 'hospital'
 });
 
 connection.connect((err) => {
@@ -23,29 +24,85 @@ connection.connect((err) => {
     console.error('MySQL connection error:', err);
     return;
   }
-  console.log('Connected to MySQL database');
+  console.log('✅ Connected to MySQL database');
 });
 
-// ✅ Handle form submission from channeling.html
+// ✅ Route: Get doctor list
+app.get('/doctors', (req, res) => {
+  connection.query('SELECT name FROM doctors', (err, results) => {
+    if (err) return res.status(500).json({ error: 'Database error' });
+    res.json(results);
+  });
+});
+
+// ✅ Route: Get available slots for selected doctor and date
+app.get('/available-slots', (req, res) => {
+  const { doctor, date } = req.query;
+
+  const getDoctorIdSQL = 'SELECT id FROM doctors WHERE name = ?';
+  connection.query(getDoctorIdSQL, [doctor], (err, docRes) => {
+    if (err || docRes.length === 0) return res.status(400).json([]);
+
+    const doctorId = docRes[0].id;
+    const slotQuery = `
+      SELECT slot_time FROM time_slots 
+      WHERE doctor_id = ? AND slot_date = ? AND is_booked = FALSE
+    `;
+    connection.query(slotQuery, [doctorId, date], (err2, slots) => {
+      if (err2) return res.status(500).json([]);
+      res.json(slots);
+    });
+  });
+});
+
+// ✅ Route: Handle appointment booking
 app.post('/channeling', (req, res) => {
   const patientName = req.body.patient;
   const doctorName = req.body.doctor;
   const channelDate = req.body.channel_date;
   const channelTime = req.body.channel_time;
 
-  const sql = `INSERT INTO appointments (Patient_Name, Doctor_Name, Date, Time) VALUES (?, ?, ?, ?)`;
-
-  connection.query(sql, [patientName, doctorName, channelDate, channelTime], (err, result) => {
-    if (err) {
-      console.error('Insert error:', err);
-      return res.status(500).send('Error saving channeling info');
+  // Step 1: Get doctor_id
+  const getDoctorIdSQL = 'SELECT id FROM doctors WHERE name = ?';
+  connection.query(getDoctorIdSQL, [doctorName], (err, doctorResults) => {
+    if (err || doctorResults.length === 0) {
+      return res.status(500).send('Doctor not found');
     }
-    res.send('Channeling info saved successfully!');
-    // OR: res.redirect('/success.html'); if you have a success page
+
+    const doctorId = doctorResults[0].id;
+
+    // Step 2: Check availability
+    const getSlotSQL = `
+      SELECT id FROM time_slots 
+      WHERE doctor_id = ? AND slot_date = ? AND slot_time = ? AND is_booked = FALSE
+    `;
+    connection.query(getSlotSQL, [doctorId, channelDate, channelTime], (err, slotResults) => {
+      if (err || slotResults.length === 0) {
+        return res.status(400).send('Time slot is already booked or invalid');
+      }
+
+      const slotId = slotResults[0].id;
+
+      // Step 3: Insert into appointments and mark slot as booked
+      const insertAppointmentSQL = `
+        INSERT INTO appointments (patient_name, doctor_id, slot_id)
+        VALUES (?, ?, ?)
+      `;
+      connection.query(insertAppointmentSQL, [patientName, doctorId, slotId], (err) => {
+        if (err) return res.status(500).send('Failed to book appointment');
+
+        const updateSlotSQL = 'UPDATE time_slots SET is_booked = TRUE WHERE id = ?';
+        connection.query(updateSlotSQL, [slotId], (err2) => {
+          if (err2) return res.status(500).send('Slot booked, but update failed');
+
+          res.send('✅ Appointment successfully booked!');
+        });
+      });
+    });
   });
 });
 
-// ✅ Start server
+// ✅ Start the server
 app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+  console.log(`🚀 Server running at http://localhost:${port}`);
 });
