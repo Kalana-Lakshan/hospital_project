@@ -2,86 +2,84 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Boeing Hospital</title>
-  <link rel="stylesheet" href="styles_channeling.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Doctor Channeling</title>
+  <link rel="stylesheet" href="navbar.css" />
+  <link rel="stylesheet" href="styles_channeling.css" />
 </head>
 <body>
+  <nav class="navbar">
+    <a href="index.html">Home</a>
+    <a href="channeling.html">Channeling</a>
+  </nav>
+
   <div class="container">
-    <h1><i class="fas fa-user-md"></i> Channel Your Doctor!</h1>
-
-    <form action="/channeling" method="POST">
-      <input type="text" name="patient" placeholder="Your Name" required>
-
-      <label for="doctor">Select Your Doctor</label>
-      <select id="doctor" name="doctor" required>
-        <option value="">-- Loading doctors... --</option>
+    <h1>Book Your Appointment</h1>
+    <form id="channelingForm" action="/channeling" method="POST" class="form-card">
+      <label for="doctor">Select Doctor:</label>
+      <select id="doctor" name="doctorId" required>
+        <option value="">Loading doctors...</option>
       </select>
 
-      <label for="channel_date">Date of Channeling</label>
-      <input type="date" id="channel_date" name="channel_date" required>
+      <label for="channel_date">Select Date:</label>
+      <input type="date" id="channel_date" name="channel_date" required />
 
-      <label for="channel_time">Time Slot</label>
-      <select id="channel_time" name="channel_time" required>
+      <label for="channel_time">Select Time Slot:</label>
+      <select id="channel_time" name="slot_id" required>
         <option value="">Select a time slot</option>
       </select>
 
-      <input type="submit" value="Submit">
+      <button type="submit">Book Appointment</button>
     </form>
   </div>
 
   <script>
-    // Load doctor list from database
-    window.addEventListener('DOMContentLoaded', () => {
-      fetch('/doctors')
-        .then(res => res.json())
-        .then(data => {
-          const doctorSelect = document.getElementById("doctor");
-          doctorSelect.innerHTML = '<option value="">-- Select Doctor --</option>';
-          data.forEach(doc => {
-            const option = document.createElement("option");
-            option.value = doc.name;
-            option.textContent = doc.name;
-            doctorSelect.appendChild(option);
-          });
-        })
-        .catch(err => {
-          console.error('Failed to load doctors', err);
-        });
-    });
+    // Load doctors on page load
+    const doctorSelect = document.getElementById('doctor');
+    const dateInput = document.getElementById('channel_date');
+    const timeSelect = document.getElementById('channel_time');
 
-    // Load available slots when doctor/date changes
-    document.getElementById("channel_date").addEventListener("change", fetchSlots);
-    document.getElementById("doctor").addEventListener("change", fetchSlots);
+    fetch('/doctors')
+      .then(res => res.json())
+      .then(data => {
+        doctorSelect.innerHTML = '<option value="">-- Select Doctor --</option>';
+        data.forEach(doc => {
+          const opt = document.createElement('option');
+          opt.value = doc.id; // assuming doctor object has id and name
+          opt.textContent = doc.name;
+          doctorSelect.appendChild(opt);
+        });
+      })
+      .catch(() => {
+        doctorSelect.innerHTML = '<option value="">Failed to load doctors</option>';
+      });
 
     function fetchSlots() {
-      const doctor = document.getElementById("doctor").value;
-      const date = document.getElementById("channel_date").value;
-      const slotSelect = document.getElementById("channel_time");
+      const doctorId = doctorSelect.value;
+      const date = dateInput.value;
+      timeSelect.innerHTML = '<option value="">Select a time slot</option>';
+      if (!doctorId || !date) return;
 
-      if (!doctor || !date) return;
-
-      fetch(`/available-slots?doctor=${encodeURIComponent(doctor)}&date=${date}`)
+      fetch(`/available-slots?doctorId=${doctorId}&date=${date}`)
         .then(res => res.json())
-        .then(data => {
-          slotSelect.innerHTML = '<option value="">Select a time slot</option>';
-          if (data.length === 0) {
-            slotSelect.innerHTML += '<option value="">No slots available</option>';
+        .then(slots => {
+          if (slots.length === 0) {
+            timeSelect.innerHTML += '<option value="">No available slots</option>';
           } else {
-            data.forEach(slot => {
-              const time = slot.slot_time.slice(0, 5); // Truncate seconds
-              const option = document.createElement("option");
-              option.value = time;
-              option.textContent = time;
-              slotSelect.appendChild(option);
+            slots.forEach(slot => {
+              const opt = document.createElement('option');
+              opt.value = slot.id;
+              opt.textContent = slot.slot_time.slice(0, 5);
+              timeSelect.appendChild(opt);
             });
           }
         })
-        .catch(err => {
-          console.error("Failed to fetch slots", err);
+        .catch(() => {
+          timeSelect.innerHTML += '<option value="">Error loading slots</option>';
         });
     }
+
+    doctorSelect.addEventListener('change', fetchSlots);
+    dateInput.addEventListener('change', fetchSlots);
   </script>
 </body>
 </html>

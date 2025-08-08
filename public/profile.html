@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedSync CATMS - My Profile</title>
+    <link rel="stylesheet" href="styles_profile.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <h2>MedSync CATMS</h2>
+        </div>
+        <div class="nav-links">
+            <a href="profile.html">Profile</a>
+            <a href="book-appointment.html">Book Appointment</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="profile-header">
+            <h1>Welcome, <span id="patientName">Loading...</span></h1>
+            <p>Patient ID: <span id="patientNumber">-</span></p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <h3>Quick Actions</h3>
+                <div class="quick-actions">
+                    <a href="book-appointment.html" class="btn btn-primary">Book New Appointment</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>My Information</h3>
+                <div id="patientInfo" class="info-grid">
+                    <div class="info-item">
+                        <label>Email:</label>
+                        <span id="patientEmail">-</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Phone:</label>
+                        <span id="patientPhone">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>My Appointments</h3>
+            <div class="table-responsive">
+                <table class="appointments-table">
+                    <thead>
+                        <tr>
+                            <th>Appointment #</th>
+                            <th>Doctor</th>
+                            <th>Specialties</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Branch</th>
+                            <th>Status</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody id="appointmentsTable">
+                        <tr>
+                            <td colspan="8" class="loading">Loading appointments...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load patient data
+        async function loadPatientData() {
+            try {
+                const response = await fetch('/session-data');
+                if (!response.ok) {
+                    window.location.href = '/login.html';
+                    return;
+                }
+                
+                const data = await response.json();
+                document.getElementById('patientName').textContent = data.name || 'Unknown';
+                document.getElementById('patientNumber').textContent = data.patient_number || 'N/A';
+                document.getElementById('patientEmail').textContent = data.email || 'N/A';
+                document.getElementById('patientPhone').textContent = data.phone || 'N/A';
+            } catch (error) {
+                console.error('Error loading patient data:', error);
+                window.location.href = '/login.html';
+            }
+        }
+
+        // Load appointments
+        async function loadAppointments() {
+            try {
+                const response = await fetch('/my-appointments');
+                const appointments = await response.json();
+                
+                const tableBody = document.getElementById('appointmentsTable');
+                
+                if (appointments.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="8" class="no-data">No appointments found</td></tr>';
+                    return;
+                }
+                
+                tableBody.innerHTML = appointments.map(apt => `
+                    <tr class="status-${apt.status}">
+                        <td>${apt.appointment_number}</td>
+                        <td>${apt.doctor_name}</td>
+                        <td>${apt.doctor_specialties || 'N/A'}</td>
+                        <td>${new Date(apt.slot_date).toLocaleDateString()}</td>
+                        <td>${apt.slot_time.substring(0, 5)}</td>
+                        <td>${apt.branch_name}</td>
+                        <td><span class="status-badge status-${apt.status}">${apt.status.replace('_', ' ')}</span></td>
+                        <td><span class="type-badge type-${apt.appointment_type}">${apt.appointment_type}</span></td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading appointments:', error);
+                document.getElementById('appointmentsTable').innerHTML = 
+                    '<tr><td colspan="8" class="error">Error loading appointments</td></tr>';
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPatientData();
+            loadAppointments();
+        });
+    </script>
+</body>
+</html>

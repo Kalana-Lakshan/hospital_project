@@ -1,126 +1,41 @@
-/* Reset some default styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Body styling */
 body {
-    background: linear-gradient(to right, #f0f4f8, #d9e4f5);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  font-family: Arial, sans-serif;
+  background: #f8f9fa;
 }
 
-/* Form container */
-form {
-    background-color: white;
-    padding: 30px 40px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 450px;
-}
-
-/* Heading */
-h1 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #2c3e50;
-    font-size: 28px;
-}
-
-/* Labels */
-label {
-    display: block;
-    margin-bottom: 6px;
-    margin-top: 15px;
-    font-weight: 600;
-    color: #34495e;
-}
-
-/* Inputs and select */
-input[type="text"],
-input[type="date"],
-input[type="time"],
-select {
-    width: 100%;
-    padding: 10px 12px;
-    margin-top: 4px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: #f9f9f9;
-    transition: border-color 0.3s;
-}
-
-input:focus,
-select:focus {
-    border-color: #3498db;
-    outline: none;
-    background-color: #fff;
-}
-
-/* Submit button */
-input[type="submit"] {
-    background-color: #3498db;
-    color: white;
-    font-weight: bold;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    margin-top: 20px;
-    cursor: pointer;
-    width: 100%;
-    transition: background-color 0.3s;
-}
-
-input[type="submit"]:hover {
-    background-color: #2980b9;
-}
-
-h1 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #1abc9c;
-    font-size: 32px;
-    font-weight: 700;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-}
-
-body {
-    background: linear-gradient(to right, #f0f4f8, #d9e4f5);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Container for heading and form */
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: white;
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 500px;
+  max-width: 500px;
+  margin: 50px auto;
+  text-align: center;
 }
 
-/* Make the heading stand out */
-h1 {
-    font-size: 32px;
-    color: #1abc9c;
-    margin-bottom: 25px;
-    text-align: center;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+.form-card {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* Optional icon styling */
-h1 i {
-    margin-right: 10px;
+label {
+  display: block;
+  margin: 10px 0 5px;
+  text-align: left;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+button {
+  background-color: #007BFF;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
 }

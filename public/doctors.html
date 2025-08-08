@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>MedSync Hospital - Our Doctors</title>
+    <link rel="stylesheet" href="styles_doctors.css" />
+</head>
+<body>
+    <header>
+        <h1>MedSync Hospital</h1>
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="branches.html">Our Branches</a>
+            <a href="about.html">About Us</a>
+            <a href="services.html">Medical Services</a>
+            <a href="doctors.html" class="active">Our Doctors</a>
+            
+            <a href="contact.html">Contact Us</a>
+            <a href="login.html" class="nav-login">Patient Portal</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <h1>Our Expert Medical Team</h1>
+            <p>Meet our distinguished team of medical professionals who bring years of experience and expertise to provide you with the highest quality healthcare. Our doctors are committed to delivering compassionate, personalized care across all specialties.</p>
+        </section>
+
+        <section class="specialty-filter">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-specialty="all">All Doctors</button>
+                <button class="filter-btn" data-specialty="internal-medicine">Internal Medicine</button>
+                <button class="filter-btn" data-specialty="ent">ENT</button>
+                <button class="filter-btn" data-specialty="pediatrics">Pediatrics</button>
+                <button class="filter-btn" data-specialty="cardiology">Cardiology</button>
+                <button class="filter-btn" data-specialty="dermatology">Dermatology</button>
+                <button class="filter-btn" data-specialty="orthopedics">Orthopedics</button>
+                <button class="filter-btn" data-specialty="general-medicine">General Medicine</button>
+                <button class="filter-btn" data-specialty="gynecology">Gynecology</button>
+            </div>
+        </section>
+
+        <section class="doctors-grid" id="doctorsGrid">
+            <!-- Dr. Chaminda Rajapaksa - Colombo -->
+            <div class="doctor-card" data-specialty="internal-medicine">
+                <div class="doctor-header">
+                    <div class="branch-badge">Colombo</div>
+                    <div class="doctor-avatar">👨‍⚕️</div>
+                    <div class="doctor-name">Dr. Chaminda Rajapaksa</div>
+                    <div class="doctor-specialty">Internal Medicine Specialist</div>
+                </div>
+                <div class="doctor-content">
+                    <div class="doctor-info">
+                        <div class="info-item">
+                            <div class="info-icon">🎓</div>
+                            <div class="info-text">
+                                <div class="info-label">Qualifications</div>
+                                <div class="info-value">MBBS, MD (Internal Medicine)</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📋</div>
+                            <div class="info-text">
+                                <div class="info-label">Registration</div>
+                                <div class="info-value">SLMC/2015/001</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📅</div>
+                            <div class="info-text">
+                                <div class="info-label">Experience</div>
+                                <div class="info-value">Since 2020</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📞</div>
+                            <div class="info-text">
+                                <div class="info-label">Contact</div>
+                                <div class="info-value">+94 77 123 4567</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor-actions">
+                        <a href="channeling.html?doctor=DOC001" class="btn btn-primary">Book Appointment</a>
+                        <a href="mailto:chaminda.r@medsync.lk" class="btn btn-secondary">Email</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dr. Priya Wickramasinghe - Colombo -->
+            <div class="doctor-card" data-specialty="ent">
+                <div class="doctor-header">
+                    <div class="branch-badge">Colombo</div>
+                    <div class="doctor-avatar">👩‍⚕️</div>
+                    <div class="doctor-name">Dr. Priya Wickramasinghe</div>
+                    <div class="doctor-specialty">ENT Specialist</div>
+                </div>
+                <div class="doctor-content">
+                    <div class="doctor-info">
+                        <div class="info-item">
+                            <div class="info-icon">🎓</div>
+                            <div class="info-text">
+                                <div class="info-label">Qualifications</div>
+                                <div class="info-value">MBBS, MS (ENT)</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📋</div>
+                            <div class="info-text">
+                                <div class="info-label">Registration</div>
+                                <div class="info-value">SLMC/2016/045</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📅</div>
+                            <div class="info-text">
+                                <div class="info-label">Experience</div>
+                                <div class="info-value">Since 2020</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📞</div>
+                            <div class="info-text">
+                                <div class="info-label">Contact</div>
+                                <div class="info-value">+94 77 223 4567</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor-actions">
+                        <a href="channeling.html?doctor=DOC002" class="btn btn-primary">Book Appointment</a>
+                        <a href="mailto:priya.w@medsync.lk" class="btn btn-secondary">Email</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dr. Kasun Mendis - Colombo -->
+            <div class="doctor-card" data-specialty="pediatrics">
+                <div class="doctor-header">
+                    <div class="branch-badge">Colombo</div>
+                    <div class="doctor-avatar">👨‍⚕️</div>
+                    <div class="doctor-name">Dr. Kasun Mendis</div>
+                    <div class="doctor-specialty">Pediatrics Specialist</div>
+                </div>
+                <div class="doctor-content">
+                    <div class="doctor-info">
+                        <div class="info-item">
+                            <div class="info-icon">🎓</div>
+                            <div class="info-text">
+                                <div class="info-label">Qualifications</div>
+                                <div class="info-value">MBBS, MD (Paediatrics)</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📋</div>
+                            <div class="info-text">
+                                <div class="info-label">Registration</div>
+                                <div class="info-value">SLMC/2017/023</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📅</div>
+                            <div class="info-text">
+                                <div class="info-label">Experience</div>
+                                <div class="info-value">Since 2020</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📞</div>
+                            <div class="info-text">
+                                <div class="info-label">Contact</div>
+                                <div class="info-value">+94 77 323 4567</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor-actions">
+                        <a href="channeling.html?doctor=DOC003" class="btn btn-primary">Book Appointment</a>
+                        <a href="mailto:kasun.m@medsync.lk" class="btn btn-secondary">Email</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dr. Anil Gunasekara - Kandy -->
+            <div class="doctor-card" data-specialty="cardiology">
+                <div class="doctor-header">
+                    <div class="branch-badge">Kandy</div>
+                    <div class="doctor-avatar">👨‍⚕️</div>
+                    <div class="doctor-name">Dr. Anil Gunasekara</div>
+                    <div class="doctor-specialty">Cardiology Specialist</div>
+                </div>
+                <div class="doctor-content">
+                    <div class="doctor-info">
+                        <div class="info-item">
+                            <div class="info-icon">🎓</div>
+                            <div class="info-text">
+                                <div class="info-label">Qualifications</div>
+                                <div class="info-value">MBBS, MD (Cardiology)</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📋</div>
+                            <div class="info-text">
+                                <div class="info-label">Registration</div>
+                                <div class="info-value">SLMC/2014/089</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📅</div>
+                            <div class="info-text">
+                                <div class="info-label">Experience</div>
+                                <div class="info-value">Since 2019</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📞</div>
+                            <div class="info-text">
+                                <div class="info-label">Contact</div>
+                                <div class="info-value">+94 77 623 4567</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor-actions">
+                        <a href="channeling.html?doctor=DOC004" class="btn btn-primary">Book Appointment</a>
+                        <a href="mailto:anil.g@medsync.lk" class="btn btn-secondary">Email</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dr. Samanthi Jayawardena - Kandy -->
+            <div class="doctor-card" data-specialty="dermatology">
+                <div class="doctor-header">
+                    <div class="branch-badge">Kandy</div>
+                    <div class="doctor-avatar">👩‍⚕️</div>
+                    <div class="doctor-name">Dr. Samanthi Jayawardena</div>
+                    <div class="doctor-specialty">Dermatology Specialist</div>
+                </div>
+                <div class="doctor-content">
+                    <div class="doctor-info">
+                        <div class="info-item">
+                            <div class="info-icon">🎓</div>
+                            <div class="info-text">
+                                <div class="info-label">Qualifications</div>
+                                <div class="info-value">MBBS, MD (Dermatology)</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📋</div>
+                            <div class="info-text">
+                                <div class="info-label">Registration</div>
+                                <div class="info-value">SLMC/2018/034</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📅</div>
+                            <div class="info-text">
+                                <div class="info-label">Experience</div>
+                                <div class="info-value">Since 2021</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📞</div>
+                            <div class="info-text">
+                                <div class="info-label">Contact</div>
+                                <div class="info-value">+94 77 723 4567</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor-actions">
+                        <a href="channeling.html?doctor=DOC005" class="btn btn-primary">Book Appointment</a>
+                        <a href="mailto:samanthi.j@medsync.lk" class="btn btn-secondary">Email</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dr. Thilak Perera - Kandy -->
+            <div class="doctor-card" data-specialty="orthopedics">
+                <div class="doctor-header">
+                    <div class="branch-badge">Kandy</div>
+                    <div class="doctor-avatar">👨‍⚕️</div>
+                    <div class="doctor-name">Dr. Thilak Perera</div>
+                    <div class="doctor-specialty">Orthopedics Specialist</div>
+                </div>
+                <div class="doctor-content">
+                    <div class="doctor-info">
+                        <div class="info-item">
+                            <div class="info-icon">🎓</div>
+                            <div class="info-text">
+                                <div class="info-label">Qualifications</div>
+                                <div class="info-value">MBBS, MS (Orthopedics)</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📋</div>
+                            <div class="info-text">
+                                <div class="info-label">Registration</div>
+                                <div class="info-value">SLMC/2016/067</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📅</div>
+                            <div class="info-text">
+                                <div class="info-label">Experience</div>
+                                <div class="info-value">Since 2020</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📞</div>
+                            <div class="info-text">
+                                <div class="info-label">Contact</div>
+                                <div class="info-value">+94 77 823 4567</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor-actions">
+                        <a href="channeling.html?doctor=DOC006" class="btn btn-primary">Book Appointment</a>
+                        <a href="mailto:thilak.p@medsync.lk" class="btn btn-secondary">Email</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dr. Ruwan Amarasinghe - Galle -->
+            <div class="doctor-card" data-specialty="general-medicine">
+                <div class="doctor-header">
+                    <div class="branch-badge">Galle</div>
+                    <div class="doctor-avatar">👨‍⚕️</div>
+                    <div class="doctor-name">Dr. Ruwan Amarasinghe</div>
+                    <div class="doctor-specialty">General Medicine Specialist</div>
+                </div>
+                <div class="doctor-content">
+                    <div class="doctor-info">
+                        <div class="info-item">
+                            <div class="info-icon">🎓</div>
+                            <div class="info-text">
+                                <div class="info-label">Qualifications</div>
+                                <div class="info-value">MBBS, MD (General Medicine)</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📋</div>
+                            <div class="info-text">
+                                <div class="info-label">Registration</div>
+                                <div class="info-value">SLMC/2015/078</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📅</div>
+                            <div class="info-text">
+                                <div class="info-label">Experience</div>
+                                <div class="info-value">Since 2020</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📞</div>
+                            <div class="info-text">
+                                <div class="info-label">Contact</div>
+                                <div class="info-value">+94 71 023 4567</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor-actions">
+                        <a href="channeling.html?doctor=DOC007" class="btn btn-primary">Book Appointment</a>
+                        <a href="mailto:ruwan.a@medsync.lk" class="btn btn-secondary">Email</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dr. Nimali Ranasinghe - Galle -->
+            <div class="doctor-card" data-specialty="gynecology">
+                <div class="doctor-header">
+                    <div class="branch-badge">Galle</div>
+                    <div class="doctor-avatar">👩‍⚕️</div>
+                    <div class="doctor-name">Dr. Nimali Ranasinghe</div>
+                    <div class="doctor-specialty">Gynecology Specialist</div>
+                </div>
+                <div class="doctor-content">
+                    <div class="doctor-info">
+                        <div class="info-item">
+                            <div class="info-icon">🎓</div>
+                            <div class="info-text">
+                                <div class="info-label">Qualifications</div>
+                                <div class="info-value">MBBS, MS (Gynecology)</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📋</div>
+                            <div class="info-text">
+                                <div class="info-label">Registration</div>
+                                <div class="info-value">SLMC/2017/056</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📅</div>
+                            <div class="info-text">
+                                <div class="info-label">Experience</div>
+                                <div class="info-value">Since 2021</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📞</div>
+                            <div class="info-text">
+                                <div class="info-label">Contact</div>
+                                <div class="info-value">+94 71 123 4567</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor-actions">
+                        <a href="channeling.html?doctor=DOC008" class="btn btn-primary">Book Appointment</a>
+                        <a href="mailto:nimali.r@medsync.lk" class="btn btn-secondary">Email</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="page-header">
+            <h1>Why Choose Our Doctors?</h1>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                <div style="text-align: center; padding: 1.5rem; background: rgba(74, 108, 247, 0.05); border-radius: 15px; border: 2px solid rgba(74, 108, 247, 0.1);">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🏆</div>
+                    <h3 style="color: #4a6cf7; margin-bottom: 1rem;">Excellence</h3>
+                    <p style="color: #555;">All our doctors are board-certified specialists with extensive training and experience in their respective fields.</p>
+                </div>
+                <div style="text-align: center; padding: 1.5rem; background: rgba(74, 108, 247, 0.05); border-radius: 15px; border: 2px solid rgba(74, 108, 247, 0.1);">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">❤️</div>
+                    <h3 style="color: #4a6cf7; margin-bottom: 1rem;">Compassionate Care</h3>
+                    <p style="color: #555;">We believe in treating patients with empathy, respect, and personalized attention to ensure the best outcomes.</p>
+                </div>
+                <div style="text-align: center; padding: 1.5rem; background: rgba(74, 108, 247, 0.05); border-radius: 15px; border: 2px solid rgba(74, 108, 247, 0.1);">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🔬</div>
+                    <h3 style="color: #4a6cf7; margin-bottom: 1rem;">Modern Technology</h3>
+                    <p style="color: #555;">Our doctors utilize the latest medical technology and evidence-based practices for accurate diagnosis and treatment.</p>
+                </div>
+                <div style="text-align: center; padding: 1.5rem; background: rgba(74, 108, 247, 0.05); border-radius: 15px; border: 2px solid rgba(74, 108, 247, 0.1);">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">⏰</div>
+                    <h3 style="color: #4a6cf7; margin-bottom: 1rem;">Accessible</h3>
+                    <p style="color: #555;">With multiple branches and flexible scheduling, quality healthcare is always within your reach.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>MedSync Hospital</h3>
+                <p>Leading healthcare provider with branches across Sri Lanka, committed to excellence in medical care.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Medical Specialties</h3>
+                <ul>
+                    <li><a href="#internal-medicine">Internal Medicine</a></li>
+                    <li><a href="#cardiology">Cardiology</a></li>
+                    <li><a href="#pediatrics">Pediatrics</a></li>
+                    <li><a href="#orthopedics">Orthopedics</a></li>
+                    <li><a href="#gynecology">Gynecology</a></li>
+                    <li><a href="#dermatology">Dermatology</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Book Appointments</h3>
+                <p>📞 Colombo: +94 11 234 5678</p>
+                <p>📞 Kandy: +94 81 234 5678</p>
+                <p>📞 Galle: +94 91 234 5678</p>
+                <p>🌐 Online: <a href="channeling.html">Book Now</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 MedSync Hospital. All rights reserved. | Excellence in Healthcare</p>
+        </div>
+    </footer>
+
+    <script>
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const doctorCards = document.querySelectorAll('.doctor-card');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+
+                const specialty = button.getAttribute('data-specialty');
+
+                doctorCards.forEach(card => {
+                    if (specialty === 'all' || card.getAttribute('data-specialty') === specialty) {
+                        card.style.display = 'block';
+                        card.style.animation = 'fadeIn 0.5s ease-in';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add loading animation
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.doctor-card').forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

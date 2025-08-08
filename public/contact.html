@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - MedSync Hospital</title>
+    <link rel="stylesheet" href="styles_contact.css">
+</head>
+<body>
+    <header>
+        <h1>MedSync Hospital</h1>
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="branches.html">Our Branches</a>
+            <a href="about.html">About Us</a>
+            <a href="services.html">Medical Services</a>
+            <a href="doctors.html">Our Doctors</a>
+            <a href="contact.html" class="active">Contact Us</a>
+            <a href="login.html" class="nav-login">Patient Portal</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="contact-hero">
+            <div class="hero-content">
+                <h2>Get in Touch with MedSync Hospital</h2>
+                <p>We're here to help you with all your healthcare needs. Reach out to us for appointments, inquiries, or emergency assistance.</p>
+            </div>
+        </section>
+
+        <section class="contact-main">
+            <div class="contact-container">
+                <!-- Contact Information -->
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">🏥</div>
+                        <div class="info-content">
+                            <h4>Main Hospital</h4>
+                            <p>No. 123, Healthcare Avenue<br>
+                            Colombo 07, Sri Lanka</p>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-icon">📞</div>
+                        <div class="info-content">
+                            <h4>Phone Numbers</h4>
+                            <p><strong>Emergency:</strong> 1-1-0<br>
+                            <strong>General Inquiries:</strong> +94 11 123 4567<br>
+                            <strong>Appointments:</strong> +94 11 123 4568</p>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-icon">✉️</div>
+                        <div class="info-content">
+                            <h4>Email Addresses</h4>
+                            <p><strong>General:</strong> info@medsync.lk<br>
+                            <strong>Appointments:</strong> appointments@medsync.lk<br>
+                            <strong>Support:</strong> support@medsync.lk</p>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-icon">⏰</div>
+                        <div class="info-content">
+                            <h4>Operating Hours</h4>
+                            <p><strong>Emergency:</strong> 24/7<br>
+                            <strong>OPD:</strong> Mon-Sat 8:00 AM - 8:00 PM<br>
+                            <strong>Sunday:</strong> 9:00 AM - 5:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="contact-form-container">
+                    <h3>Send Us a Message</h3>
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name *</label>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name *</label>
+                                <input type="text" id="lastName" name="lastName" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Select a subject</option>
+                                <option value="appointment">Appointment Inquiry</option>
+                                <option value="medical">Medical Information</option>
+                                <option value="insurance">Insurance & Billing</option>
+                                <option value="complaint">Complaint or Feedback</option>
+                                <option value="emergency">Emergency Assistance</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" rows="6" required placeholder="Please provide details about your inquiry..."></textarea>
+                        </div>
+
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="newsletter" name="newsletter">
+                                <span class="checkmark"></span>
+                                Subscribe to our health newsletter for tips and updates
+                            </label>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                            <button type="reset" class="btn btn-secondary">Clear Form</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Emergency Section -->
+        <section class="emergency-section">
+            <div class="emergency-content">
+                <h3>🚨 Medical Emergency?</h3>
+                <p>If you're experiencing a medical emergency, please don't use this form. Call our emergency services immediately.</p>
+                <div class="emergency-actions">
+                    <a href="tel:110" class="btn btn-emergency">Call Emergency: 1-1-0</a>
+                    <a href="tel:+94111234567" class="btn btn-urgent">Call Hospital: +94 11 123 4567</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Map Section -->
+        <section class="map-section">
+            <h3>Find Our Main Hospital</h3>
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <div class="map-content">
+                        <h4>📍 MedSync Hospital - Main Campus</h4>
+                        <p>No. 123, Healthcare Avenue, Colombo 07, Sri Lanka</p>
+                        <p><strong>Landmarks:</strong> Near Independence Square, Opposite Liberty Plaza</p>
+                        <div class="map-actions">
+                            <a href="#" class="btn btn-map">Get Directions</a>
+                            <a href="branches.html" class="btn btn-secondary">All Branches</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h4>How do I book an appointment?</h4>
+                    <p>You can book appointments through our Patient Portal, by calling +94 11 123 4568, or by visiting any of our branches in person.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>What should I bring for my appointment?</h4>
+                    <p>Please bring a valid ID, insurance card (if applicable), previous medical records, and a list of current medications.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>Do you accept insurance?</h4>
+                    <p>Yes, we accept most major insurance plans. Please contact us to verify your specific coverage.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>What are your visiting hours?</h4>
+                    <p>General visiting hours are 10:00 AM - 8:00 PM daily. ICU visiting hours may differ - please check with the nursing staff.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>MedSync Hospital</h3>
+                <p>Leading healthcare provider committed to excellence in medical care and patient satisfaction.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Medical Services</a></li>
+                    <li><a href="doctors.html">Our Doctors</a></li>
+                    <li><a href="branches.html">Our Branches</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>📞 Emergency: 1-1-0</p>
+                <p>📞 General: +94 11 123 4567</p>
+                <p>✉️ info@medsync.lk</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 MedSync Hospital. All rights reserved. | Accredited Healthcare Provider</p>
+        </div>
+    </footer>
+
+    <script>
+        // Form submission handler
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Simple validation
+            if (!data.firstName || !data.lastName || !data.email || !data.subject || !data.message) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            // Simulate form submission
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                alert('Thank you for your message! We will get back to you within 24 hours.');
+                this.reset();
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+
+        // Emergency button click tracking
+        document.querySelectorAll('.btn-emergency, .btn-urgent').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (this.classList.contains('btn-emergency')) {
+                    // Optional: Add emergency call logging
+                    console.log('Emergency call initiated');
+                }
+            });
+        });
+
+        // Form field focus effects
+        document.querySelectorAll('.contact-form input, .contact-form select, .contact-form textarea').forEach(field => {
+            field.addEventListener('focus', function() {
+                this.parentElement.classList.add('focused');
+            });
+            
+            field.addEventListener('blur', function() {
+                if (!this.value) {
+                    this.parentElement.classList.remove('focused');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

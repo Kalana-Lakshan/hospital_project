@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedSync CATMS - Doctor Dashboard</title>
+    <link rel="stylesheet" href="styles_doctor-dashboard.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <h2>MedSync CATMS</h2>
+        </div>
+        <div class="nav-links">
+            <a href="doctor-dashboard.html">Dashboard</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="profile-header">
+            <h1>Welcome, <span id="doctorName">Dr. Loading...</span></h1>
+            <p>Employee ID: <span id="employeeId">-</span> | Role: <span id="role">-</span> | Branch: <span id="branchName">-</span></p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <h3>Today's Summary</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number" id="todayTotal">-</span>
+                        <span class="stat-label">Total Appointments</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="todayCompleted">-</span>
+                        <span class="stat-label">Completed</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="todayPending">-</span>
+                        <span class="stat-label">Pending</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Quick Actions</h3>
+                <div class="quick-actions">
+                    <button class="btn btn-primary" onclick="refreshAppointments()">Refresh Appointments</button>
+                    <button class="btn btn-secondary" onclick="showDateFilter()">Filter by Date</button>
+                </div>
+                <div id="dateFilter" style="display: none; margin-top: 1rem;">
+                    <input type="date" id="filterDate" onchange="loadAppointments(this.value)">
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>My Appointments <span id="appointmentsDate">(Today)</span></h3>
+            <div class="table-responsive">
+                <table class="appointments-table">
+                    <thead>
+                        <tr>
+                            <th>Appointment #</th>
+                            <th>Patient</th>
+                            <th>Phone</th>
+                            <th>Time</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="appointmentsTable">
+                        <tr>
+                            <td colspan="7" class="loading">Loading appointments...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Appointment Detail Modal -->
+    <div id="appointmentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Appointment Details</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="appointmentDetails"></div>
+                <form id="appointmentForm">
+                    <input type="hidden" id="appointmentId">
+                    <div class="form-group">
+                        <label for="consultation_notes">Consultation Notes</label>
+                        <textarea id="consultation_notes" name="consultation_notes" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="diagnosis">Diagnosis</label>
+                        <textarea id="diagnosis" name="diagnosis" rows="3"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-success" onclick="updateAppointmentStatus('completed')">Mark Complete</button>
+                        <button type="button" class="btn btn-danger" onclick="updateAppointmentStatus('cancelled')">Cancel</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentAppointmentId = null;
+
+        // Load doctor data
+        async function loadDoctorData() {
+            try {
+                const response = await fetch('/staff-session-data');
+                if (!response.ok) {
+                    window.location.href = '/staff-login.html';
+                    return;
+                }
+                
+                const data = await response.json();
+                document.getElementById('doctorName').textContent = data.name || 'Dr. Unknown';
+                document.getElementById('employeeId').textContent = data.employee_id || 'N/A';
+                document.getElementById('role').textContent = (data.role || '').toUpperCase();
+                document.getElementById('branchName').textContent = data.branch_name || 'N/A';
+            } catch (error) {
+                console.error('Error loading doctor data:', error);
+                window.location.href = '/staff-login.html';
+            }
+        }
+
+        // Load appointments
+        async function loadAppointments(date = null) {
+            try {
+                let url = '/doctor-appointments';
+                if (date) {
+                    url += `?date=${date}`;
+                    document.getElementById('appointmentsDate').textContent = `(${new Date(date).toLocaleDateString()})`;
+                } else {
+                    document.getElementById('appointmentsDate').textContent = '(Today)';
+                }
+
+                const response = await fetch(url);
+                const appointments = await response.json();
+                
+                const tableBody = document.getElementById('appointmentsTable');
+                
+                if (appointments.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="7" class="no-data">No appointments found</td></tr>';
+                    updateStats(appointments);
+                    return;
+                }
+                
+                tableBody.innerHTML = appointments.map(apt => `
+                    <tr class="status-${apt.status}">
+                        <td>${apt.appointment_number}</td>
+                        <td>${apt.patient_name}</td>
+                        <td>${apt.patient_phone || 'N/A'}</td>
+                        <td>${apt.slot_time.substring(0, 5)}</td>
+                        <td><span class="type-badge type-${apt.appointment_type}">${apt.appointment_type}</span></td>
+                        <td><span class="status-badge status-${apt.status}">${apt.status.replace('_', ' ')}</span></td>
+                        <td>
+                            ${apt.status === 'scheduled' ? 
+                                `<button class="btn btn-sm btn-primary" onclick="openAppointmentModal(${apt.id}, '${apt.patient_name}', '${apt.appointment_number}')">Manage</button>` :
+                                `<button class="btn btn-sm btn-secondary" onclick="viewAppointment(${apt.id})">View</button>`
+                            }
+                        </td>
+                    </tr>
+                `).join('');
+
+                updateStats(appointments);
+            } catch (error) {
+                console.error('Error loading appointments:', error);
+                document.getElementById('appointmentsTable').innerHTML = 
+                    '<tr><td colspan="7" class="error">Error loading appointments</td></tr>';
+            }
+        }
+
+        // Update statistics
+        function updateStats(appointments) {
+            const today = new Date().toISOString().split('T')[0];
+            const todayAppointments = appointments.filter(apt => apt.slot_date.split('T')[0] === today);
+            
+            document.getElementById('todayTotal').textContent = todayAppointments.length;
+            document.getElementById('todayCompleted').textContent = 
+                todayAppointments.filter(apt => apt.status === 'completed').length;
+            document.getElementById('todayPending').textContent = 
+                todayAppointments.filter(apt => apt.status === 'scheduled').length;
+        }
+
+        // Open appointment management modal
+        function openAppointmentModal(appointmentId, patientName, appointmentNumber) {
+            currentAppointmentId = appointmentId;
+            document.getElementById('appointmentId').value = appointmentId;
+            document.getElementById('appointmentDetails').innerHTML = `
+                <p><strong>Patient:</strong> ${patientName}</p>
+                <p><strong>Appointment #:</strong> ${appointmentNumber}</p>
+            `;
+            document.getElementById('appointmentModal').style.display = 'block';
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('appointmentModal').style.display = 'none';
+            document.getElementById('consultation_notes').value = '';
+            document.getElementById('diagnosis').value = '';
+            currentAppointmentId = null;
+        }
+
+        // Update appointment status
+        async function updateAppointmentStatus(status) {
+            if (!currentAppointmentId) return;
+
+            const formData = new FormData(document.getElementById('appointmentForm'));
+            const data = Object.fromEntries(formData);
+            data.status = status;
+
+            try {
+                const response = await fetch(`/appointments/${currentAppointmentId}/status`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert(`Appointment ${status} successfully!`);
+                    closeModal();
+                    loadAppointments();
+                } else {
+                    alert(result.error || 'Failed to update appointment');
+                }
+            } catch (error) {
+                alert('Failed to update appointment. Please try again.');
+                console.error('Update error:', error);
+            }
+        }
+
+        // Show date filter
+        function showDateFilter() {
+            const filter = document.getElementById('dateFilter');
+            filter.style.display = filter.style.display === 'none' ? 'block' : 'none';
+            
+            if (filter.style.display === 'block') {
+                document.getElementById('filterDate').value = new Date().toISOString().split('T')[0];
+            }
+        }
+
+        // Refresh appointments
+        function refreshAppointments() {
+            const filterDate = document.getElementById('filterDate').value;
+            loadAppointments(filterDate || null);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('appointmentModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDoctorData();
+            loadAppointments();
+        });
+    </script>
+</body>
+</html>

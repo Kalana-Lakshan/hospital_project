@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedSync CATMS - Staff Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <h2>MedSync CATMS</h2>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="staff-dashboard.html">Dashboard</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="profile-header">
+            <h1>Welcome, <span id="staffName">Loading...</span></h1>
+            <p>Employee ID: <span id="employeeId">-</span> | Role: <span id="role">-</span> | Branch: <span id="branchName">-</span></p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <h3>System Reports</h3>
+                <div class="quick-actions">
+                    <button class="btn btn-primary" onclick="loadBranchSummary()">Branch Summary</button>
+                    <button class="btn btn-secondary" onclick="loadDoctorRevenue()">Doctor Revenue</button>
+                    <button class="btn btn-warning" onclick="loadOutstandingBalance()">Outstanding Bills</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Quick Statistics</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalPatients">-</span>
+                        <span class="stat-label">Total Patients</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="todayAppointments">-</span>
+                        <span class="stat-label">Today's Appointments</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="activeDoctors">-</span>
+                        <span class="stat-label">Active Doctors</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports Section -->
+        <div class="card">
+            <h3 id="reportTitle">System Reports</h3>
+            <div id="reportControls" style="margin-bottom: 1rem;">
+                <input type="date" id="reportDate" onchange="refreshCurrentReport()">
+                <button class="btn btn-sm btn-secondary" onclick="refreshCurrentReport()">Refresh</button>
+            </div>
+            <div class="table-responsive">
+                <table id="reportsTable" class="appointments-table" style="display: none;">
+                    <thead id="reportTableHead">
+                    </thead>
+                    <tbody id="reportTableBody">
+                    </tbody>
+                </table>
+                <div id="reportMessage" class="no-data">
+                    Select a report from the options above to view data
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentReport = null;
+
+        // Load staff data
+        async function loadStaffData() {
+            try {
+                const response = await fetch('/staff-session-data');
+                if (!response.ok) {
+                    window.location.href = '/staff-login.html';
+                    return;
+                }
+                
+                const data = await response.json();
+                document.getElementById('staffName').textContent = data.name || 'Staff Member';
+                document.getElementById('employeeId').textContent = data.employee_id || 'N/A';
+                document.getElementById('role').textContent = (data.role || '').toUpperCase();
+                document.getElementById('branchName').textContent = data.branch_name || 'N/A';
+            } catch (error) {
+                console.error('Error loading staff data:', error);
+                window.location.href = '/staff-login.html';
+            }
+        }
+
+        // Load basic statistics
+        async function loadStatistics() {
+            // For demo purposes, showing static data
+            // In real implementation, these would be API calls
+            document.getElementById('totalPatients').textContent = '1,234';
+            document.getElementById('todayAppointments').textContent = '45';
+            document.getElementById('activeDoctors').textContent = '12';
+        }
+
+        // Load Branch Summary Report
+        async function loadBranchSummary() {
+            currentReport = 'branch-summary';
+            document.getElementById('reportTitle').textContent = 'Branch-wise Appointment Summary';
+            
+            const date = document.getElementById('reportDate').value || new Date().toISOString().split('T')[0];
+            
+            try {
+                const response = await fetch(`/reports/branch-summary?date=${date}`);
+                const data = await response.json();
+                
+                const table = document.getElementById('reportsTable');
+                const thead = document.getElementById('reportTableHead');
+                const tbody = document.getElementById('reportTableBody');
+                const message = document.getElementById('reportMessage');
+                
+                if (data.length === 0) {
+                    table.style.display = 'none';
+                    message.style.display = 'block';
+                    message.textContent = 'No data found for the selected date';
+                    return;
+                }
+                
+                thead.innerHTML = `
+                    <tr>
+                        <th>Branch</th>
+                        <th>Date</th>
+                        <th>Scheduled</th>
+                        <th>Completed</th>
+                        <th>Cancelled</th>
+                        <th>Total</th>
+                    </tr>
+                `;
+                
+                tbody.innerHTML = data.map(row => `
+                    <tr>
+                        <td>${row.branch_name}</td>
+                        <td>${new Date(row.appointment_date).toLocaleDateString()}</td>
+                        <td>${row.scheduled_count}</td>
+                        <td>${row.completed_count}</td>
+                        <td>${row.cancelled_count}</td>
+                        <td>${row.total_appointments}</td>
+                    </tr>
+                `).join('');
+                
+                table.style.display = 'table';
+                message.style.display = 'none';
+                
+            } catch (error) {
+                console.error('Error loading branch summary:', error);
+                showError('Failed to load branch summary');
+            }
+        }
+
+        // Load Doctor Revenue Report
+        async function loadDoctorRevenue() {
+            currentReport = 'doctor-revenue';
+            document.getElementById('reportTitle').textContent = 'Doctor Revenue Report';
+            
+            try {
+                const response = await fetch('/reports/doctor-revenue');
+                const data = await response.json();
+                
+                const table = document.getElementById('reportsTable');
+                const thead = document.getElementById('reportTableHead');
+                const tbody = document.getElementById('reportTableBody');
+                const message = document.getElementById('reportMessage');
+                
+                if (data.length === 0) {
+                    table.style.display = 'none';
+                    message.style.display = 'block';
+                    message.textContent = 'No revenue data available';
+                    return;
+                }
+                
+                thead.innerHTML = `
+                    <tr>
+                        <th>Doctor</th>
+                        <th>Employee ID</th>
+                        <th>Completed Appointments</th>
+                        <th>Gross Revenue</th>
+                        <th>Collected Revenue</th>
+                        <th>Outstanding</th>
+                    </tr>
+                `;
+                
+                tbody.innerHTML = data.map(row => `
+                    <tr>
+                        <td>${row.doctor_name}</td>
+                        <td>${row.employee_id}</td>
+                        <td>${row.completed_appointments}</td>
+                        <td>Rs. ${parseFloat(row.gross_revenue || 0).toLocaleString()}</td>
+                        <td>Rs. ${parseFloat(row.collected_revenue || 0).toLocaleString()}</td>
+                        <td>Rs. ${parseFloat(row.outstanding_amount || 0).toLocaleString()}</td>
+                    </tr>
+                `).join('');
+                
+                table.style.display = 'table';
+                message.style.display = 'none';
+                
+            } catch (error) {
+                console.error('Error loading doctor revenue:', error);
+                showError('Failed to load doctor revenue report');
+            }
+        }
+
+        // Load Outstanding Balance Report
+        async function loadOutstandingBalance() {
+            currentReport = 'outstanding-balance';
+            document.getElementById('reportTitle').textContent = 'Patients with Outstanding Balance';
+            
+            try {
+                const response = await fetch('/reports/outstanding-balance');
+                const data = await response.json();
+                
+                const table = document.getElementById('reportsTable');
+                const thead = document.getElementById('reportTableHead');
+                const tbody = document.getElementById('reportTableBody');
+                const message = document.getElementById('reportMessage');
+                
+                if (data.length === 0) {
+                    table.style.display = 'none';
+                    message.style.display = 'block';
+                    message.textContent = 'No outstanding balances found';
+                    return;
+                }
+                
+                thead.innerHTML = `
+                    <tr>
+                        <th>Patient Number</th>
+                        <th>Patient Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Outstanding Amount</th>
+                        <th>Pending Bills</th>
+                        <th>Oldest Due Date</th>
+                    </tr>
+                `;
+                
+                tbody.innerHTML = data.map(row => `
+                    <tr>
+                        <td>${row.patient_number}</td>
+                        <td>${row.patient_name}</td>
+                        <td>${row.phone || 'N/A'}</td>
+                        <td>${row.email || 'N/A'}</td>
+                        <td class="text-danger">Rs. ${parseFloat(row.total_outstanding).toLocaleString()}</td>
+                        <td>${row.pending_bills}</td>
+                        <td>${row.oldest_due_date ? new Date(row.oldest_due_date).toLocaleDateString() : 'N/A'}</td>
+                    </tr>
+                `).join('');
+                
+                table.style.display = 'table';
+                message.style.display = 'none';
+                
+            } catch (error) {
+                console.error('Error loading outstanding balance:', error);
+                showError('Failed to load outstanding balance report');
+            }
+        }
+
+        // Refresh current report
+        function refreshCurrentReport() {
+            if (currentReport === 'branch-summary') {
+                loadBranchSummary();
+            } else if (currentReport === 'doctor-revenue') {
+                loadDoctorRevenue();
+            } else if (currentReport === 'outstanding-balance') {
+                loadOutstandingBalance();
+            }
+        }
+
+        // Show error message
+        function showError(message) {
+            const table = document.getElementById('reportsTable');
+            const messageDiv = document.getElementById('reportMessage');
+            
+            table.style.display = 'none';
+            messageDiv.style.display = 'block';
+            messageDiv.className = 'error';
+            messageDiv.textContent = message;
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            loadStaffData();
+            loadStatistics();
+            
+            // Set today's date as default
+            document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
+        });
+    </script>
+
+    <style>
+        .text-danger {
+            color: var(--danger-color) !important;
+            font-weight: 600;
+        }
+        
+        #reportControls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        #reportDate {
+            padding: 0.5rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+        }
+        
+        @media (max-width: 768px) {
+            #reportControls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</body>
+</html>

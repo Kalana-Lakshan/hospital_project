@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedSync CATMS - Book Appointment</title>
+    <link rel="stylesheet" href="styles_book-appointment.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <h2>MedSync CATMS</h2>
+        </div>
+        <div class="nav-links">
+            <a href="profile.html">Profile</a>
+            <a href="book-appointment.html">Book Appointment</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Book Your Appointment</h1>
+            <p>Schedule your visit with our qualified doctors</p>
+        </div>
+
+        <div class="booking-container">
+            <div class="card">
+                <form id="bookingForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="branch_id">Select Branch *</label>
+                            <select id="branch_id" name="branch_id" required>
+                                <option value="">Loading branches...</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="doctor_id">Select Doctor *</label>
+                            <select id="doctor_id" name="doctor_id" required>
+                                <option value="">First select a branch</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="appointment_date">Select Date *</label>
+                            <input type="date" id="appointment_date" name="appointment_date" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="slot_id">Select Time Slot *</label>
+                            <select id="slot_id" name="slot_id" required>
+                                <option value="">Select date and doctor first</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="doctor-info" id="doctorInfo" style="display: none;">
+                        <h4>Doctor Information</h4>
+                        <p><strong>Name:</strong> <span id="doctorName">-</span></p>
+                        <p><strong>Employee ID:</strong> <span id="doctorEmployeeId">-</span></p>
+                        <p><strong>Specialties:</strong> <span id="doctorSpecialties">-</span></p>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="history.back()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Book Appointment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const branchSelect = document.getElementById('branch_id');
+        const doctorSelect = document.getElementById('doctor_id');
+        const dateInput = document.getElementById('appointment_date');
+        const slotSelect = document.getElementById('slot_id');
+        const doctorInfo = document.getElementById('doctorInfo');
+
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.min = today;
+
+        // Load branches on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('/branches');
+                const branches = await response.json();
+                
+                branchSelect.innerHTML = '<option value="">Select Branch</option>';
+                branches.forEach(branch => {
+                    const option = document.createElement('option');
+                    option.value = branch.id;
+                    option.textContent = `${branch.name} - ${branch.location}`;
+                    branchSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading branches:', error);
+                branchSelect.innerHTML = '<option value="">Error loading branches</option>';
+            }
+        });
+
+        // Load doctors when branch changes
+        branchSelect.addEventListener('change', async () => {
+            const branchId = branchSelect.value;
+            doctorSelect.innerHTML = '<option value="">Loading doctors...</option>';
+            slotSelect.innerHTML = '<option value="">Select date and doctor first</option>';
+            doctorInfo.style.display = 'none';
+            
+            if (!branchId) {
+                doctorSelect.innerHTML = '<option value="">Select branch first</option>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/doctors?branch_id=${branchId}`);
+                const doctors = await response.json();
+                
+                doctorSelect.innerHTML = '<option value="">Select Doctor</option>';
+                doctors.forEach(doctor => {
+                    const option = document.createElement('option');
+                    option.value = doctor.id;
+                    option.textContent = `${doctor.name} (${doctor.specialties || 'General'})`;
+                    option.dataset.name = doctor.name;
+                    option.dataset.employeeId = doctor.employee_id;
+                    option.dataset.specialties = doctor.specialties;
+                    doctorSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading doctors:', error);
+                doctorSelect.innerHTML = '<option value="">Error loading doctors</option>';
+            }
+        });
+
+        // Show doctor info when doctor changes
+        doctorSelect.addEventListener('change', () => {
+            const selectedOption = doctorSelect.options[doctorSelect.selectedIndex];
+            slotSelect.innerHTML = '<option value="">Select date first</option>';
+            
+            if (selectedOption.value) {
+                document.getElementById('doctorName').textContent = selectedOption.dataset.name;
+                document.getElementById('doctorEmployeeId').textContent = selectedOption.dataset.employeeId;
+                document.getElementById('doctorSpecialties').textContent = selectedOption.dataset.specialties || 'General';
+                doctorInfo.style.display = 'block';
+                loadTimeSlots();
+            } else {
+                doctorInfo.style.display = 'none';
+            }
+        });
+
+        // Load time slots when date changes
+        dateInput.addEventListener('change', loadTimeSlots);
+
+        async function loadTimeSlots() {
+            const doctorId = doctorSelect.value;
+            const date = dateInput.value;
+            
+            slotSelect.innerHTML = '<option value="">Select time slot</option>';
+            
+            if (!doctorId || !date) return;
+
+            slotSelect.innerHTML = '<option value="">Loading slots...</option>';
+
+            try {
+                const response = await fetch(`/available-slots?doctorId=${doctorId}&date=${date}`);
+                const slots = await response.json();
+                
+                if (slots.length === 0) {
+                    slotSelect.innerHTML = '<option value="">No available slots</option>';
+                    return;
+                }
+                
+                slotSelect.innerHTML = '<option value="">Select time slot</option>';
+                slots.forEach(slot => {
+                    const option = document.createElement('option');
+                    option.value = slot.id;
+                    option.textContent = `${slot.slot_time.substring(0, 5)} (${slot.duration_minutes} min)`;
+                    slotSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading slots:', error);
+                slotSelect.innerHTML = '<option value="">Error loading slots</option>';
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('bookingForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Booking...';
+            
+            try {
+                const response = await fetch('/book-appointment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert(`Appointment booked successfully!\nAppointment Number: ${result.appointmentNumber}`);
+                    window.location.href = '/profile.html';
+                } else {
+                    alert(result.error || 'Booking failed');
+                }
+            } catch (error) {
+                alert('Booking failed. Please try again.');
+                console.error('Booking error:', error);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        });
+    </script>
+</body>
+</html>

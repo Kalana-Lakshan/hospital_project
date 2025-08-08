@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>MedSync Hospital - Medical Services</title>
+    <link rel="stylesheet" href="styles_services.css" />
+</head>
+<body>
+    <header>
+        <h1>MedSync Hospital</h1>
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="branches.html">Our Branches</a>
+            <a href="about.html">About Us</a>
+            <a href="services.html" class="active">Medical Services</a>
+            <a href="doctors.html">Our Doctors</a>
+            
+            <a href="contact.html">Contact Us</a>
+            <a href="login.html" class="nav-login">Patient Portal</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <h1>Comprehensive Medical Services</h1>
+            <p>At MedSync Hospital, we offer a complete range of medical services across all our branches. From routine consultations to specialized procedures, our experienced medical team and state-of-the-art facilities ensure you receive the highest quality healthcare.</p>
+        </section>
+
+        <section class="services-overview">
+            <div class="overview-stats">
+                <div class="stat-item">
+                    <span class="stat-number">10+</span>
+                    <span class="stat-label">Medical Services</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Emergency Care</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">3</span>
+                    <span class="stat-label">Service Categories</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Quality Assured</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="category-filter">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-category="all">All Services</button>
+                <button class="filter-btn" data-category="consultation">Consultations</button>
+                <button class="filter-btn" data-category="diagnostic">Diagnostic Tests</button>
+                <button class="filter-btn" data-category="procedure">Medical Procedures</button>
+                <button class="filter-btn" data-category="therapy">Therapy Services</button>
+                <button class="filter-btn" data-category="medication">Medications</button>
+            </div>
+        </section>
+
+        <section class="services-grid" id="servicesGrid">
+            <!-- General Consultation -->
+            <div class="service-card" data-category="consultation">
+                <div class="service-header">
+                    <div class="service-icon">🩺</div>
+                    <div class="service-title">
+                        <h3>General Consultation</h3>
+                        <span class="service-category">Consultation</span>
+                    </div>
+                    <div class="service-price">
+                        <span class="price-amount">Rs. 2,500</span>
+                        <span class="price-label">per visit</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-description">Basic medical consultation with our experienced general practitioners for routine health concerns and preventive care.</p>
+                    <div class="service-details">
+                        <div class="detail-item">
+                            <span class="detail-icon">⏱️</span>
+                            <span class="detail-text">Duration: 30 minutes</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📋</span>
+                            <span class="detail-text">Code: DIAG002</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">🏥</span>
+                            <span class="detail-text">Available at all branches</span>
+                        </div>
+                    </div>
+                    <div class="service-actions">
+                        <a href="channeling.html?service=DIAG002" class="btn btn-primary">Book Now</a>
+                        <button class="btn btn-secondary" onclick="showServiceInfo('DIAG002')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blood Test -->
+            <div class="service-card" data-category="diagnostic">
+                <div class="service-header">
+                    <div class="service-icon">🩸</div>
+                    <div class="service-title">
+                        <h3>Blood Test - Full Blood Count</h3>
+                        <span class="service-category">Diagnostic</span>
+                    </div>
+                    <div class="service-price">
+                        <span class="price-amount">Rs. 1,800</span>
+                        <span class="price-label">per test</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-description">Complete blood count analysis to check for infections, anemia, and other blood disorders.</p>
+                    <div class="service-details">
+                        <div class="detail-item">
+                            <span class="detail-icon">⏱️</span>
+                            <span class="detail-text">Duration: 10 minutes</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📋</span>
+                            <span class="detail-text">Code: DIAG003</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">🏥</span>
+                            <span class="detail-text">Available at all branches</span>
+                        </div>
+                    </div>
+                    <div class="service-actions">
+                        <a href="channeling.html?service=DIAG003" class="btn btn-primary">Book Now</a>
+                        <button class="btn btn-secondary" onclick="showServiceInfo('DIAG003')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ultrasound -->
+            <div class="service-card" data-category="diagnostic">
+                <div class="service-header">
+                    <div class="service-icon">🔍</div>
+                    <div class="service-title">
+                        <h3>Ultrasound Scan</h3>
+                        <span class="service-category">Diagnostic</span>
+                    </div>
+                    <div class="service-price">
+                        <span class="price-amount">Rs. 4,500</span>
+                        <span class="price-label">per scan</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-description">Ultrasound imaging for abdominal, pelvic, and other soft tissue examination using sound waves.</p>
+                    <div class="service-details">
+                        <div class="detail-item">
+                            <span class="detail-icon">⏱️</span>
+                            <span class="detail-text">Duration: 30 minutes</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📋</span>
+                            <span class="detail-text">Code: DIAG004</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">🏥</span>
+                            <span class="detail-text">Available at all branches</span>
+                        </div>
+                    </div>
+                    <div class="service-actions">
+                        <a href="channeling.html?service=DIAG004" class="btn btn-primary">Book Now</a>
+                        <button class="btn btn-secondary" onclick="showServiceInfo('DIAG004')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Minor Surgery -->
+            <div class="service-card" data-category="procedure">
+                <div class="service-header">
+                    <div class="service-icon">🔬</div>
+                    <div class="service-title">
+                        <h3>Minor Surgery</h3>
+                        <span class="service-category">Medical Procedure</span>
+                    </div>
+                    <div class="service-price">
+                        <span class="price-amount">Rs. 15,000</span>
+                        <span class="price-label">per procedure</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-description">Small surgical procedures performed under local anesthesia in our well-equipped minor surgery units.</p>
+                    <div class="service-details">
+                        <div class="detail-item">
+                            <span class="detail-icon">⏱️</span>
+                            <span class="detail-text">Duration: 60 minutes</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📋</span>
+                            <span class="detail-text">Code: PROC001</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">🏥</span>
+                            <span class="detail-text">Available at all branches</span>
+                        </div>
+                    </div>
+                    <div class="service-actions">
+                        <a href="channeling.html?service=PROC001" class="btn btn-primary">Book Now</a>
+                        <button class="btn btn-secondary" onclick="showServiceInfo('PROC001')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Injection -->
+            <div class="service-card" data-category="procedure">
+                <div class="service-header">
+                    <div class="service-icon">💉</div>
+                    <div class="service-title">
+                        <h3>Injection Service</h3>
+                        <span class="service-category">Medical Procedure</span>
+                    </div>
+                    <div class="service-price">
+                        <span class="price-amount">Rs. 500</span>
+                        <span class="price-label">per injection</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-description">Intramuscular or intravenous injection administration by trained nursing staff.</p>
+                    <div class="service-details">
+                        <div class="detail-item">
+                            <span class="detail-icon">⏱️</span>
+                            <span class="detail-text">Duration: 5 minutes</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📋</span>
+                            <span class="detail-text">Code: PROC002</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">🏥</span>
+                            <span class="detail-text">Available at all branches</span>
+                        </div>
+                    </div>
+                    <div class="service-actions">
+                        <a href="channeling.html?service=PROC002" class="btn btn-primary">Book Now</a>
+                        <button class="btn btn-secondary" onclick="showServiceInfo('PROC002')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Physiotherapy -->
+            <div class="service-card" data-category="therapy">
+                <div class="service-header">
+                    <div class="service-icon">🏃‍♀️</div>
+                    <div class="service-title">
+                        <h3>Physiotherapy Session</h3>
+                        <span class="service-category">Therapy</span>
+                    </div>
+                    <div class="service-price">
+                        <span class="price-amount">Rs. 3,000</span>
+                        <span class="price-label">per session</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-description">Physical therapy treatment for rehabilitation, pain management, and mobility improvement.</p>
+                    <div class="service-details">
+                        <div class="detail-item">
+                            <span class="detail-icon">⏱️</span>
+                            <span class="detail-text">Duration: 45 minutes</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📋</span>
+                            <span class="detail-text">Code: THER001</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">🏥</span>
+                            <span class="detail-text">Available at all branches</span>
+                        </div>
+                    </div>
+                    <div class="service-actions">
+                        <a href="channeling.html?service=THER001" class="btn btn-primary">Book Now</a>
+                        <button class="btn btn-secondary" onclick="showServiceInfo('THER001')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prescription Medication -->
+            <div class="service-card" data-category="medication">
+                <div class="service-header">
+                    <div class="service-icon">💊</div>
+                    <div class="service-title">
+                        <h3>Prescription Medication</h3>
+                        <span class="service-category">Medication</span>
+                    </div>
+                    <div class="service-price">
+                        <span class="price-amount">Rs. 1,000</span>
+                        <span class="price-label">average cost</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-description">Prescribed medicines dispensed by our qualified pharmacists with proper guidance and instructions.</p>
+                    <div class="service-details">
+                        <div class="detail-item">
+                            <span class="detail-icon">⏱️</span>
+                            <span class="detail-text">Duration: 5 minutes</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📋</span>
+                            <span class="detail-text">Code: MED001</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">🏥</span>
+                            <span class="detail-text">Available at all branches</span>
+                        </div>
+                    </div>
+                    <div class="service-actions">
+                        <a href="channeling.html?service=MED001" class="btn btn-primary">Get Prescription</a>
+                        <button class="btn btn-secondary" onclick="showServiceInfo('MED001')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="why-choose-section">
+            <div class="section-header">
+                <h2>Why Choose MedSync Medical Services?</h2>
+                <p>Experience healthcare excellence with our comprehensive range of medical services</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Quick Service</h3>
+                    <p>Efficient service delivery with minimal waiting times and streamlined processes.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Quality Assurance</h3>
+                    <p>All services meet international medical standards with regular quality assessments.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">💰</div>
+                    <h3>Affordable Pricing</h3>
+                    <p>Competitive and transparent pricing for all medical services and procedures.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Safe & Secure</h3>
+                    <p>Strict safety protocols and sterile environments for all medical procedures.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="emergency-notice">
+            <div class="notice-content">
+                <div class="emergency-icon">🚨</div>
+                <h2>Emergency Services Available 24/7</h2>
+                <p>For medical emergencies, please contact our emergency hotline or visit the nearest MedSync branch immediately. Our emergency medical team is always ready to provide immediate care.</p>
+                <div class="emergency-contacts">
+                    <a href="tel:110" class="emergency-btn">🚑 Call 1-1-0</a>
+                    <a href="tel:+94112345678" class="emergency-btn">📞 Colombo Emergency</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>MedSync Hospital</h3>
+                <p>Leading healthcare provider with branches across Sri Lanka, committed to excellence in medical care.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Service Categories</h3>
+                <ul>
+                    <li><a href="#consultations">Consultations</a></li>
+                    <li><a href="#diagnostics">Diagnostic Tests</a></li>
+                    <li><a href="#procedures">Medical Procedures</a></li>
+                    <li><a href="#therapy">Therapy Services</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Book Services</h3>
+                <p>📞 Colombo: +94 11 234 5678</p>
+                <p>📞 Kandy: +94 81 234 5678</p>
+                <p>📞 Galle: +94 91 234 5678</p>
+                <p>🌐 Online: <a href="channeling.html">Book Now</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 MedSync Hospital. All rights reserved. | Quality Healthcare Services</p>
+        </div>
+    </footer>
+
+    <script>
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const serviceCards = document.querySelectorAll('.service-card');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+
+                const category = button.getAttribute('data-category');
+
+                serviceCards.forEach(card => {
+                    if (category === 'all' || card.getAttribute('data-category') === category) {
+                        card.style.display = 'block';
+                        card.style.animation = 'fadeIn 0.5s ease-in';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Service info function
+        function showServiceInfo(serviceCode) {
+            alert(`More information about service ${serviceCode} will be displayed here. This would typically open a detailed modal or redirect to a dedicated page.`);
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add loading animation
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.service-card').forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>">Code: CONS001</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">🏥</span>
+                            <span class="detail-text">Available at all branches</span>
+                        </div>
+                    </div>
+                    <div class="service-actions">
+                        <a href="channeling.html?service=CONS001" class="btn btn-primary">Book Now</a>
+                        <button class="btn btn-secondary" onclick="showServiceInfo('CONS001')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specialist Consultation -->
+            <div class="service-card" data-category="consultation">
+                <div class="service-header">
+                    <div class="service-icon">👨‍⚕️</div>
+                    <div class="service-title">
+                        <h3>Specialist Consultation</h3>
+                        <span class="service-category">Consultation</span>
+                    </div>
+                    <div class="service-price">
+                        <span class="price-amount">Rs. 4,000</span>
+                        <span class="price-label">per visit</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-description">Consultation with specialist doctors in cardiology, dermatology, orthopedics, pediatrics, and other specialized fields.</p>
+                    <div class="service-details">
+                        <div class="detail-item">
+                            <span class="detail-icon">⏱️</span>
+                            <span class="detail-text">Duration: 45 minutes</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📋</span>
+                            <span class="detail-text">Code: CONS002</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">🏥</span>
+                            <span class="detail-text">Available at all branches</span>
+                        </div>
+                    </div>
+                    <div class="service-actions">
+                        <a href="channeling.html?service=CONS002" class="btn btn-primary">Book Now</a>
+                        <button class="btn btn-secondary" onclick="showServiceInfo('CONS002')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- X-Ray -->
+            <div class="service-card" data-category="diagnostic">
+                <div class="service-header">
+                    <div class="service-icon">📷</div>
+                    <div class="service-title">
+                        <h3>X-Ray Imaging</h3>
+                        <span class="service-category">Diagnostic</span>
+                    </div>
+                    <div class="service-price">
+                        <span class="price-amount">Rs. 3,500</span>
+                        <span class="price-label">per scan</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-description">Standard X-Ray imaging for bone fractures, chest conditions, and other medical conditions requiring radiological examination.</p>
+                    <div class="service-details">
+                        <div class="detail-item">
+                            <span class="detail-icon">⏱️</span>
+                            <span class="detail-text">Duration: 20 minutes</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📋</span>
+                            <span class="detail-text">Code: DIAG001</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">🏥</span>
+                            <span class="detail-text">Available at all branches</span>
+                        </div>
+                    </div>
+                    <div class="service-actions">
+                        <a href="channeling.html?service=DIAG001" class="btn btn-primary">Book Now</a>
+                        <button class="btn btn-secondary" onclick="showServiceInfo('DIAG001')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ECG -->
+            <div class="service-card" data-category="diagnostic">
+                <div class="service-header">
+                    <div class="service-icon">💓</div>
+                    <div class="service-title">
+                        <h3>ECG Test</h3>
+                        <span class="service-category">Diagnostic</span>
+                    </div>
+                    <div class="service-price">
+                        <span class="price-amount">Rs. 2,000</span>
+                        <span class="price-label">per test</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-description">Electrocardiogram test to monitor heart rhythm and detect any cardiac abnormalities or conditions.</p>
+                    <div class="service-details">
+                        <div class="detail-item">
+                            <span class="detail-icon">⏱️</span>
+                            <span class="detail-text">Duration: 15 minutes</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📋</span>
+                            <span class="detail-text
